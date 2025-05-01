@@ -33,7 +33,7 @@
                             <th scope="row">{{ $no++ }}</th>
                             <td>{{ $data->judul }}</td>
                             <td>{{ $data->deskripsi }}</td>
-                            <td>{{ $data->cover }}</td>
+                            <td><img src="{{ asset('/images/berita/' . $data->cover) }}" width="100"></td>
                             <td>{{ $data->tanggal }}</td>
                             <td>
                                 <form action="{{ route('berita.destroy',$data->id) }}" method="POST">

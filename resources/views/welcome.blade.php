@@ -37,24 +37,25 @@
             </div>
         </div>
 
-
         <div class="container">
             <div class="row">
-                <div class="col md-4">
-                    <div class="card mt-5" style="width: 18rem;">
-                        <img src="{{ asset('gambar/baimwong.jpg') }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Paula Selingkuh</h5>
-                            <p class="card-text">Paula selingkuhi baim wong</p>
-                            <a href="#" class="btn btn-primary">baca selengkapnya</a>
+                @php $no = 1; @endphp
+                @foreach ($berita as $data)
+                    <div class="col md-2">
+                        <div class="card mt-5" style="width: 18rem;">
+                            <img src="{{ asset('/images/berita/' . $data->cover) }}" class="card-img-top"
+                                alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $data->judul }}</h5>
+                                <p class="card-text">{{ $data->deskripsi }}</p>
+                                <p>{{ $data->tanggal }}</p>
+                                <a href="#" class="btn btn-primary">baca selengkapnya</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
+                    @endforeach
+
             </div>
-
-
-
         </div>
 
 

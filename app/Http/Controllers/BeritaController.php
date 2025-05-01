@@ -10,6 +10,10 @@ class BeritaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $berita = berita::all();
@@ -36,6 +40,21 @@ class BeritaController extends Controller
             'cover' => 'required',
             'tanggal' => 'required',
         ]);
+        $berita = new Berita();
+        $berita->judul = $request->judul;
+        $berita->deskripsi = $request->deskripsi;
+        if ($request->hasFile('cover')) {
+            $img = $request->file('cover');
+            $name = rand(1000,9999) . $img->getClientOriginalName();
+            $img->move('images/berita', $name);
+            $berita->cover = $name;
+        }
+        $berita->tanggal = $request->tanggal;
+        $berita->save();
+
+        return redirect()->route('berita.index')->with('success','Data Berhasil Ditambahkan');
+
+
     }
 
     /**
@@ -43,7 +62,8 @@ class BeritaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $berita = berita::all();
+        return view('berita.show', compact('berita'));
     }
 
     /**
@@ -51,7 +71,8 @@ class BeritaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $berita =berita::FindOrFail($id);
+        return view('berita.edit', compact('berita'));
     }
 
     /**
@@ -59,7 +80,26 @@ class BeritaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'cover' => 'required',
+            'tanggal' => 'required',
+        ]);
+        $berita = Berita::findOrFail($id);
+        $berita->judul = $request->judul;
+        $berita->deskripsi = $request->deskripsi;
+        if ($request->hasFile('cover')) {
+            $berita->deleteImage();
+            $img = $request->file('cover');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('images/berita', $name);
+            $berita->cover = $name;
+        }
+        $berita->tanggal = $request->tanggal;
+        $berita->save();
+
+        return redirect()->route('berita.index')->with('success','Data Berhasil Ditambahkan');
     }
 
     /**
@@ -67,6 +107,8 @@ class BeritaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $berita = berita::findOrFail($id);
+        $berita->delete();
+        return redirect()->route('berita.index')->with('success','Data Berhasil Dihapus');
     }
 }
