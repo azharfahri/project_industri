@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('berita', BeritaController::class);
 Route::resource('/', HomeController::class);
+Route::resource('home', AdminController::class);
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
